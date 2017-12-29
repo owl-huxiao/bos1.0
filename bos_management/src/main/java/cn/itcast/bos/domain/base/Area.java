@@ -3,12 +3,10 @@ package cn.itcast.bos.domain.base;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @description:地域信息实体类，主要包含 省市区(县)
@@ -46,7 +44,14 @@ public class Area {
 		this.district = district;
 		this.postcode = postcode;
 	}
-
+	/**
+	 * 为sub_area.html页面提供数据
+	 * @return
+	 */
+	@Transient//不生成数据库列
+	public String getInfo(){
+		return province+"-"+city+"-"+district;
+	}
 	public String getId() {
 		return id;
 	}
@@ -103,19 +108,13 @@ public class Area {
 		this.shortcode = shortcode;
 	}
 
+	@JSON(serialize = false)
 	public Set<SubArea> getSubareas() {
 		return subareas;
 	}
 
 	public void setSubareas(Set<SubArea> subareas) {
 		this.subareas = subareas;
-	}
-
-	@Override
-	public String toString() {
-		return "Area [id=" + id + ", province=" + province + ", city=" + city
-				+ ", district=" + district + ", postcode=" + postcode
-				+ ", citycode=" + citycode + ", shortcode=" + shortcode + "]";
 	}
 
 }

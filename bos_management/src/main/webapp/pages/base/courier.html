@@ -246,13 +246,14 @@
 					}
 				});
 				
-				//查询按钮事件
+				// 为查询提交按钮 ，添加点击事件
 				$("#searchBtn").click(function(){
+					// 将查询表单内容转换为 json 
 					var params = $("#searchForm").serializeJson();
-					//将json对象绑定到datagrid上,完成带有条件的查询
-					$("#grid").datagrid("load",params);
-					//关闭查询窗口
-					$("#searchForm").window("close");
+					// 绑定参数到datagrid
+					$("#grid").datagrid('load',params);
+					// 关闭查询窗口
+					$("#searchWindow").window('close');
 				});
 			});
 		

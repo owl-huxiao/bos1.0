@@ -1,5 +1,7 @@
 package cn.itcast.bos.domain.base;
 
+import org.apache.struts2.json.annotations.JSON;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,9 +27,9 @@ public class FixedArea {
 	@Id
 	@Column(name = "C_ID")
 	private String id; // 主键
-	@Column(name = "C_FIXED_AREA_NAME", unique = true)
+	@Column(name = "C_FIXED_AREA_NAME")
 	private String fixedAreaName; // 定区名称
-	@Column(name = "C_FIXED_AREA_LEADER", unique = true)
+	@Column(name = "C_FIXED_AREA_LEADER")
 	private String fixedAreaLeader;// 定区负责人
 	@Column(name = "C_TELEPHONE")
 	private String telephone;// 联系电话
@@ -96,7 +98,7 @@ public class FixedArea {
 	public void setOperator(String operator) {
 		this.operator = operator;
 	}
-
+	@JSON(serialize = false)
 	public Set<SubArea> getSubareas() {
 		return subareas;
 	}
@@ -104,7 +106,7 @@ public class FixedArea {
 	public void setSubareas(Set<SubArea> subareas) {
 		this.subareas = subareas;
 	}
-
+	@JSON(serialize = false)
 	public Set<Courier> getCouriers() {
 		return couriers;
 	}

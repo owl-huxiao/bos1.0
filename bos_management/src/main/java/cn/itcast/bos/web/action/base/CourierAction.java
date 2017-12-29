@@ -105,7 +105,7 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
         result.put("total",pageData.getTotalElements());
         result.put("rows",pageData.getContent());
         ActionContext.getContext().getValueStack().push(result);
-        System.out.println(result);
+        //System.out.println(result);
         return SUCCESS;
     }
     //属性驱动
