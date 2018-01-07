@@ -1,7 +1,11 @@
 package cn.itcast.bos.service.base.impl;
 
+import cn.itcast.bos.dao.base.CourierRepository;
 import cn.itcast.bos.dao.base.FixedAreaRepository;
+import cn.itcast.bos.dao.base.TakeTimeRepository;
+import cn.itcast.bos.domain.base.Courier;
 import cn.itcast.bos.domain.base.FixedArea;
+import cn.itcast.bos.domain.base.TakeTime;
 import cn.itcast.bos.service.base.FixedAreaService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,5 +87,23 @@ public class FixedAreaServiceImpl implements FixedAreaService {
     @Override
     public FixedArea findById(String fixedAreaId) {
         return fixedAreaRepository.findOne(fixedAreaId);
+    }
+    @Autowired
+    private CourierRepository courierRepository;
+    @Autowired
+    private TakeTimeRepository takeTimeRepository;
+    /**
+     * 关联快递员到定区
+     */
+    @Override
+    public void associationCourierToFixedArea(FixedArea fixedArea, Integer courierId, Integer takeTimeId) {
+        //获得持久态的定区 fixedArea1
+        FixedArea fixedArea1 = fixedAreaRepository.findOne(fixedArea.getId());
+        Courier courier = courierRepository.findOne(courierId);
+        TakeTime takeTime = takeTimeRepository.findOne(takeTimeId);
+        // 快递员 关联到 定区上
+        fixedArea1.getCouriers().add(courier);
+        // 将收派标准 关联到 快递员上
+       courier.setTakeTime(takeTime);
     }
 }

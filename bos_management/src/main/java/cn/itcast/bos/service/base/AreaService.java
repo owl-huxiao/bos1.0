@@ -28,4 +28,16 @@ public interface AreaService {
     List<Area> findAll();
 
     Area findById(String areaId);
+
+    /**
+     * 保存区域
+     * @param model
+     */
+    void save(Area model);
+
+    /**
+     * 批量删除
+     * @param idArray
+     */
+    void delBatch(String[] idArray);
 }

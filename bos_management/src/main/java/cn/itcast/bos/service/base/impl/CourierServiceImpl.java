@@ -10,6 +10,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.ws.rs.Produces;
+import java.util.List;
+import java.util.Set;
+
 @Service
 @Transactional
 public class CourierServiceImpl implements CourierService {
@@ -41,5 +49,19 @@ public class CourierServiceImpl implements CourierService {
             Integer id = Integer.parseInt(idStr);
             courierRepository.updateDeltag(id,null);
         }
+    }
+    // 查询未关联定区的快递员
+    @Override
+    public List<Courier> findNoAssociation() {
+        //分装Specification
+        Specification<Courier> specification = new Specification<Courier>() {
+            @Override
+            public Predicate toPredicate(Root<Courier> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                // 查询条件，判定列表size为空
+                Predicate p = cb.isEmpty(root.get("fixedAreas").as(Set.class));
+                return p;
+            }
+        };
+        return courierRepository.findAll(specification);
     }
 }

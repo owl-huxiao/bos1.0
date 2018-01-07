@@ -2,6 +2,7 @@ package cn.itcast.bos.web.action.base;
 
 import cn.itcast.bos.domain.base.Courier;
 import cn.itcast.bos.service.base.CourierService;
+import cn.itcast.crm.domain.Customer;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -115,6 +116,10 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
         this.ids = ids;
     }
 
+    /**
+     * 作废快递员
+     * @return
+     */
     @Action(value = "courier_delBatch",results = {@Result(name = "success",type = "redirect",
             location = "./pages/base/courier.html")})
     public String delBatch(){
@@ -124,6 +129,7 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
         courierService.delBatch(idArray);
         return SUCCESS;
     }
+
     @Action(value = "courier_restoreBatch",results = {@Result(name = "success",type = "redirect",
             location = "./pages/base/courier.html")})
     public String restoreBatch(){
@@ -131,6 +137,15 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
         String[] idArray = ids.split(",");
         //调用业务层,批量作废
         courierService.restoreBatch(idArray);
+        return SUCCESS;
+    }
+    @Action(value = "courier_findnoassociation",results = {
+            @Result(name = "success",type = "json")})
+    public String findnoassociation() {
+        // 调用业务层，查询未关联定区的快递员
+        List<Courier> couriers = courierService.findNoAssociation();
+        // 将查询快递员列表 压入值栈
+        ActionContext.getContext().getValueStack().push(couriers);
         return SUCCESS;
     }
 }

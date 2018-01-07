@@ -28,4 +28,8 @@ public interface FixedAreaService {
     List<FixedArea> findAll();
 
     FixedArea findById(String fixedAreaId);
+    /**
+     * 关联快递员到定区
+     */
+    void associationCourierToFixedArea(FixedArea fixedArea, Integer courierId, Integer takeTimeId);
 }

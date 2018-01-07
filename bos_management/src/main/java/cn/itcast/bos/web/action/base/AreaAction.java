@@ -37,6 +37,13 @@ import java.util.List;
 public class AreaAction extends BaseAction<Area> {
     @Autowired
     private AreaService areaService;
+    @Action(value = "area_save",results = {
+            @Result(name = "success",type = "redirect",location = "./pages/base/area.html")})
+    public String save(){
+        areaService.save(model);
+        return SUCCESS;
+    }
+
     // 接收上传文件
     private File file;
     private String fileFileName;
@@ -48,7 +55,6 @@ public class AreaAction extends BaseAction<Area> {
     public void setFileFileName(String fileFileName) {
         this.fileFileName = fileFileName;
     }
-
 
     // 批量区域数据导入
     @Action(value = "area_batchImport",results = {
@@ -193,6 +199,22 @@ public class AreaAction extends BaseAction<Area> {
         List<Area> areas = areaService.findAll();
         // 压入值栈
         ActionContext.getContext().getValueStack().push(areas);
+        return SUCCESS;
+    }
+
+    //属性驱动,接收删除数据的i的字符串
+    public String ids;
+    public void setIds(String ids) {
+        this.ids = ids;
+    }
+
+    @Action(value = "area_delBetch",results = {
+            @Result(name = "success",type = "redirect",location = "./pages/base/area.html")})
+    public String delBetch(){
+        // 按,分隔ids
+        String[] idArray = ids.split(",");
+        // 调用业务层，批量作废
+        areaService.delBatch(idArray);
         return SUCCESS;
     }
 }

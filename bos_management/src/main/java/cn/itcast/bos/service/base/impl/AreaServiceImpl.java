@@ -83,4 +83,25 @@ public class AreaServiceImpl implements AreaService {
     public Area findById(String areaId) {
         return areaRepository.findOne(areaId);
     }
+
+    /**
+     * 保存区域
+     * @param model
+     */
+    @Override
+    public void save(Area model) {
+        areaRepository.save(model);
+    }
+
+    /**
+     * 批量删除
+     * @param idArray
+     */
+    @Override
+    public void delBatch(String[] idArray) {
+        // 调用DAO实现 delete删除操作
+        for (String id:idArray){
+            areaRepository.delete(id);
+        }
+    }
 }

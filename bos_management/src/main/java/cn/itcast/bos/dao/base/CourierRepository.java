@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-public interface CourierRepository extends JpaRepository<Courier,String>,
+public interface CourierRepository extends JpaRepository<Courier,Integer>,
         JpaSpecificationExecutor<Courier>{
     @Query(value = "update Courier set deltag=?2 where id = ?1")
     @Modifying

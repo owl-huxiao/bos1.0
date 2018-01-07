@@ -137,7 +137,6 @@ public class SubAreaAction extends BaseAction<SubArea> {
     public String export(){
         //1.查询所有数据
         List<SubArea> subAreaList =subAreaService.findAll();
-
         //2.将数据写入excel文件
         //2.1创建wookbook对象
         Workbook workbook = new XSSFWorkbook();

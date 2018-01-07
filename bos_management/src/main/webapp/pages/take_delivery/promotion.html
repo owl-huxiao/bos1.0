@@ -18,6 +18,7 @@
 			$(function() {
 				// 宣传任务表格			
 				$("#grid").datagrid({
+					url : "../../promotion_pageQuery.action",
 					columns: [
 						[{
 							field: 'id',
@@ -31,15 +32,24 @@
 						}, {
 							field: 'titleImg',
 							title: '宣传图片',
-							width: 200
+							width: 200,
+							formatter : function (value,row,index) {
+								return "<img src='"+ value +"' width='100' height='100'/>"
+                            }
 						},{
 							field: 'startDate',
 							title: '发布时间',
-							width: 100
+							width: 100,
+							formatter : function (value,row,index) {
+								return value.replace("T"," ")
+                            }
 						}, {
 							field: 'endDate',
 							title: '实效时间',
-							width: 100
+							width: 100,
+                            formatter : function (value,row,index) {
+                                return value.replace("T"," ")
+                            }
 						}, {
 							field: 'updateTime',
 							title: '更新时间',
@@ -82,7 +92,24 @@
 							text: '作废',
 							iconCls: 'icon-cancel',
 							handler: function() {
-								alert('作废');
+								//alert('作废');
+								//获得页面所勾选的宣传项目的id
+								var rows = $("#grid").datagrid("getSelections");
+								if(rows.length==0){
+								    //没有选中数据
+									$.messager.alert("警告!","作废功能,必须选中一条以上数据!","warning");
+								}else {
+								    //选中数据
+								    //获得所有的id
+									var array = new Array();
+									for (var i = 0; i< rows.length; i++){
+									    array.push(rows[i].id)
+									}
+									//生成字符串
+									var ids = array.join(",");
+									//将字符串发送至后台
+									window.location.href="../../promotion_delBatch.action?ids="+ids;
+								}
 							}
 						},{
 							id: 'saveBtn',
